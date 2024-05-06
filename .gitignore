@@ -1,0 +1,6 @@
+/target
+/include
+.DS_Store
+saead.xcframework/ios-arm64_x86_64-simulator/saead.framework/saead
+saead.xcframework/ios-arm64/saead.framework/saead
+saead.xcframework/ios-arm64/saead.framework/libsaead.a

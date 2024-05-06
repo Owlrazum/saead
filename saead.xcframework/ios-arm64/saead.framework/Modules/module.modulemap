@@ -1,0 +1,6 @@
+framework module saead {
+  umbrella header "saeadFFI.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,22 @@
+[package]
+name = "saead"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+help = "0.0.0"
+tink-core = { version = "0.2.5", features = ["json"] }
+tink-streaming-aead = "0.2.5"
+uniffi = { version = "0.27.1", features = ["cli"] }
+
+
+[build-dependencies]
+uniffi = { version = "0.27.1", features = ["build"] }
+
+[lib]
+crate-type = [ "staticlib" ]
+name = "saead"
+
+[[bin]]
+name = "uniffi-bindgen"
+path = "uniffi-bindgen.rs"

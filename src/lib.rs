@@ -3,13 +3,13 @@ use std::{
     io::{Read, Write},
 };
 
-use tink_core::keyset::{JsonReader, Reader};
+use tink_core::keyset::{JsonReader, Reader, insecure};
 
 uniffi::include_scaffolding!("saead"); // "example" is the name of the .udl file 
 
 const CHUNK_SIZE: usize = 4096;
 
-fn encrypt(
+pub fn encrypt(
     source_file_path: String, 
     dist_file_path: String, 
     key_file_path: String,
@@ -21,12 +21,7 @@ fn encrypt(
     tink_streaming_aead::init();
 
     let mut reader = JsonReader::new(File::open(key_file_path).expect("fkey_open"));
-    let keyset = reader.read().expect("fjson_read");
-    // Generate fresh key material.
-    tink_core::keyset::Handle::new_with_no_secrets(keyset).expect("fhandle");
-    let kh = tink_core::keyset::Handle::new(
-            &tink_streaming_aead::aes128_gcm_hkdf_4kb_key_template()
-        ).expect("f_handle");
+    let kh = insecure::read(&mut reader).expect("fhandle");
 
     // Get the primitive that uses the key material.
     let a = tink_streaming_aead::new(&kh).expect("f_primitive");
@@ -53,7 +48,7 @@ fn encrypt(
 }
 
 
-fn decrypt(
+pub fn decrypt(
     source_file_path: String, 
     dist_file_path: String, 
     key_file_path: String,
@@ -65,12 +60,7 @@ fn decrypt(
     tink_streaming_aead::init();
 
     let mut reader = JsonReader::new(File::open(key_file_path).expect("fkey_open"));
-    let keyset = reader.read().expect("fjson_read");
-    // Generate fresh key material.
-    tink_core::keyset::Handle::new_with_no_secrets(keyset).expect("fhandle");
-    let kh = tink_core::keyset::Handle::new(
-            &tink_streaming_aead::aes128_gcm_hkdf_4kb_key_template()
-        ).expect("f_handle");
+    let kh = insecure::read(&mut reader).expect("fhandle");
 
     // Get the primitive that uses the key material.
     let a = tink_streaming_aead::new(&kh).expect("f_primitive");

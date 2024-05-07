@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 help = "0.0.0"
-tink-core = { version = "0.2.5", features = ["json"] }
+tink-core = { version = "0.2.5", features = ["json", "insecure"] }
 tink-streaming-aead = "0.2.5"
 uniffi = { version = "0.27.1", features = ["cli"] }
 

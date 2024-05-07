@@ -1,0 +1,5 @@
+mod lib;
+
+fn main() {
+    lib::decrypt("data/encrypted".to_string(), "data/decrypted.jpg".to_string(), "data/key.json".to_string(), "@Secret(|)Piano@".to_string());
+}

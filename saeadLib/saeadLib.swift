@@ -418,22 +418,35 @@ private struct FfiConverterString: FfiConverter {
     }
 }
 
-public func decrypt(encryptPath: String, decryptPath: String, keysetPath: String, aad: String) -> String {
-    return try! FfiConverterString.lift(try! rustCall {
+private struct FfiConverterData: FfiConverterRustBuffer {
+    typealias SwiftType = Data
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> Data {
+        let len: Int32 = try readInt(&buf)
+        return try Data(readBytes(&buf, count: Int(len)))
+    }
+
+    public static func write(_ value: Data, into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        writeBytes(&buf, value)
+    }
+}
+
+public func decrypt(sourcePath: String, keysetPath: String, aad: String) -> Data {
+    return try! FfiConverterData.lift(try! rustCall {
         uniffi_saead_fn_func_decrypt(
-            FfiConverterString.lower(encryptPath),
-            FfiConverterString.lower(decryptPath),
+            FfiConverterString.lower(sourcePath),
             FfiConverterString.lower(keysetPath),
             FfiConverterString.lower(aad), $0
         )
     })
 }
 
-public func encrypt(plainPath: String, encryptPath: String, keysetPath: String, aad: String) -> String {
-    return try! FfiConverterString.lift(try! rustCall {
+public func encrypt(sourcePath: String, keysetPath: String, aad: String) -> Data {
+    return try! FfiConverterData.lift(try! rustCall {
         uniffi_saead_fn_func_encrypt(
-            FfiConverterString.lower(plainPath),
-            FfiConverterString.lower(encryptPath),
+            FfiConverterString.lower(sourcePath),
             FfiConverterString.lower(keysetPath),
             FfiConverterString.lower(aad), $0
         )
@@ -456,10 +469,10 @@ private var initializationResult: InitializationResult {
     if bindings_contract_version != scaffolding_contract_version {
         return InitializationResult.contractVersionMismatch
     }
-    if uniffi_saead_checksum_func_decrypt() != 22967 {
+    if uniffi_saead_checksum_func_decrypt() != 20633 {
         return InitializationResult.apiChecksumMismatch
     }
-    if uniffi_saead_checksum_func_encrypt() != 20886 {
+    if uniffi_saead_checksum_func_encrypt() != 38669 {
         return InitializationResult.apiChecksumMismatch
     }
 

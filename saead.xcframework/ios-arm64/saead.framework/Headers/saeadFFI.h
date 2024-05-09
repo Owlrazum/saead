@@ -253,12 +253,12 @@ typedef void (*UniffiForeignFutureCompleteVoid)(uint64_t, UniffiForeignFutureStr
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_SAEAD_FN_FUNC_DECRYPT
 #define UNIFFI_FFIDEF_UNIFFI_SAEAD_FN_FUNC_DECRYPT
-RustBuffer uniffi_saead_fn_func_decrypt(RustBuffer encrypt_path, RustBuffer decrypt_path, RustBuffer keyset_path, RustBuffer aad, RustCallStatus *_Nonnull out_status
+RustBuffer uniffi_saead_fn_func_decrypt(RustBuffer source_path, RustBuffer keyset_path, RustBuffer aad, RustCallStatus *_Nonnull out_status
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_SAEAD_FN_FUNC_ENCRYPT
 #define UNIFFI_FFIDEF_UNIFFI_SAEAD_FN_FUNC_ENCRYPT
-RustBuffer uniffi_saead_fn_func_encrypt(RustBuffer plain_path, RustBuffer encrypt_path, RustBuffer keyset_path, RustBuffer aad, RustCallStatus *_Nonnull out_status
+RustBuffer uniffi_saead_fn_func_encrypt(RustBuffer source_path, RustBuffer keyset_path, RustBuffer aad, RustCallStatus *_Nonnull out_status
 );
 #endif
 #ifndef UNIFFI_FFIDEF_FFI_SAEAD_RUSTBUFFER_ALLOC

@@ -1,4 +1,4 @@
 namespace saead {
-  string encrypt(string plain_path, string encrypt_path, string keyset_path, string aad);
-  string decrypt(string encrypt_path, string decrypt_path, string keyset_path, string aad);
+  bytes encrypt(string source_path, string keyset_path, string aad);
+  bytes decrypt(string source_path, string keyset_path, string aad);
 };

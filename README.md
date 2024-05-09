@@ -1,6 +1,9 @@
 # Integration
 In Xcode add xcframework to the 'Framework Libraries' section'
 
+To add tink library to rust, run cargo add 
+
+
 # Development info
 
 https://krirogn.dev/blog/integrate-rust-in-ios

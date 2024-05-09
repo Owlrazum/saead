@@ -14,6 +14,9 @@
 		24769B5F2BE8ED500097D3DC /* saead.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24769B5B2BE8ED400097D3DC /* saead.xcframework */; };
 		24769B602BE8ED500097D3DC /* saead.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 24769B5B2BE8ED400097D3DC /* saead.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		24769B652BE8EF650097D3DC /* saeadLib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24769B642BE8EF650097D3DC /* saeadLib.swift */; };
+		24E624DF2BECE39B004CFDDC /* encrypted in Resources */ = {isa = PBXBuildFile; fileRef = 24E624DD2BECE39B004CFDDC /* encrypted */; };
+		24E624E02BECE39B004CFDDC /* key.json in Resources */ = {isa = PBXBuildFile; fileRef = 24E624DE2BECE39B004CFDDC /* key.json */; };
+		24E624E22BED1916004CFDDC /* plain.txt in Resources */ = {isa = PBXBuildFile; fileRef = 24E624E12BED1916004CFDDC /* plain.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,7 +40,10 @@
 		24769B502BE8ECE80097D3DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		24769B532BE8ECE80097D3DC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		24769B5B2BE8ED400097D3DC /* saead.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = saead.xcframework; path = ../saead/saead.xcframework; sourceTree = "<group>"; };
-		24769B642BE8EF650097D3DC /* saeadLib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = saeadLib.swift; path = ../../saead/saeadLib/saeadLib.swift; sourceTree = "<group>"; };
+		24769B642BE8EF650097D3DC /* saeadLib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = saeadLib.swift; path = Lib/saeadLib.swift; sourceTree = SOURCE_ROOT; };
+		24E624DD2BECE39B004CFDDC /* encrypted */ = {isa = PBXFileReference; lastKnownFileType = file; path = encrypted; sourceTree = "<group>"; };
+		24E624DE2BECE39B004CFDDC /* key.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = key.json; sourceTree = "<group>"; };
+		24E624E12BED1916004CFDDC /* plain.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = plain.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +81,11 @@
 			children = (
 				24769B4C2BE8ECE60097D3DC /* saeadAppApp.swift */,
 				24769B4E2BE8ECE60097D3DC /* ContentView.swift */,
+				24E624DD2BECE39B004CFDDC /* encrypted */,
+				24E624DE2BECE39B004CFDDC /* key.json */,
 				24769B502BE8ECE80097D3DC /* Assets.xcassets */,
 				24769B522BE8ECE80097D3DC /* Preview Content */,
+				24E624E12BED1916004CFDDC /* plain.txt */,
 			);
 			path = saeadApp;
 			sourceTree = "<group>";
@@ -165,7 +174,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				24769B542BE8ECE80097D3DC /* Preview Assets.xcassets in Resources */,
+				24E624E22BED1916004CFDDC /* plain.txt in Resources */,
+				24E624E02BECE39B004CFDDC /* key.json in Resources */,
 				24769B512BE8ECE80097D3DC /* Assets.xcassets in Resources */,
+				24E624DF2BECE39B004CFDDC /* encrypted in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -46,35 +46,13 @@ func test() {
 "primaryKeyId": 1069226562
 }
 """
-    let keysetPath = getFilePath(fileName: "key.json")
-    let plainFilePath = getFilePath(fileName: "plain.txt")
-    let encryptedFilePath = getFilePath(fileName: "encrypted")
-    let decryptedFilePath = getFilePath(fileName: "decrypted")
     
-    writeData(filePath:keysetPath, dataToWrite: key)
-    writeData(filePath:plainFilePath, dataToWrite: "Hi from rust tink")
+    let keyset = Bundle.main.url(forResource: "key", withExtension: "json")!.path(percentEncoded: false)
+    let plain = Bundle.main.url(forResource: "plain", withExtension: "txt")!.path(percentEncoded: false)
+    let encrypted = Bundle.main.url(forResource: "encrypted", withExtension: "")!.path(percentEncoded: false)
     
-    
-    let _ = print(encrypt(plainPath: plainFilePath.absoluteString, encryptPath: encryptedFilePath.absoluteString, keysetPath: keysetPath.absoluteString, aad: "@Secret(|)Piano@"))
-
-    let _ = print(decrypt(encryptPath: encryptedFilePath.absoluteString, decryptPath: decryptedFilePath.absoluteString, keysetPath: keysetPath.absoluteString, aad: "@Secret(|)Piano@"))
-}
-
-func getFilePath(fileName: String) -> URL {
-    let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(fileName)
-    return filePath
-}
-
-func writeData(filePath: URL, dataToWrite: String) {
-    do {
-      let file = try FileHandle(forWritingTo: filePath)
-      
-      let key = dataToWrite.data(using: .utf8)!
-      file.write(key)
-      
-      file.closeFile()
-      print("created key")
-    } catch {
-      print("Error key: \(error)")
-    }
+    let encryptResult = encrypt(sourcePath: plain, keysetPath: keyset, aad: "@Secret(|)Piano@")
+    let decryptResult = decrypt(sourcePath: encrypted, keysetPath: keyset, aad: "@Secret(|)Piano@")
+    print("===encrypt===", decryptResult)
+    print("===decrypt===", decryptResult)
 }

@@ -28,12 +28,11 @@ pub fn encrypt(
     let tmp_file = std::fs::File::create(tmp_path.clone()).expect("fcreate");
     let mut encrypter = pr.new_encrypting_writer(Box::new(tmp_file), aad.as_bytes()).expect("fwriter");
     encrypter.write_all(&source_buffer).expect("fwrite_encrypt");
+    encrypter.close().expect("fclose");
     
     let mut read_file = std::fs::File::open(tmp_path).expect("fopen second");
     let mut result_buffer = Vec::new(); 
     read_file.read_to_end(&mut result_buffer).expect("fread_to_end second");
-    // Complete the encryption (process any remaining buffered plaintext).
-    encrypter.close().expect("fclose");
     
     return result_buffer;
 }

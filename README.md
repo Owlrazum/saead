@@ -1,8 +1,5 @@
 # Integration
-In Xcode add xcframework to the 'Framework Libraries' section'
-
-To add tink library to rust, run cargo add 
-
+In Xcode add xcframework to the 'Framework Libraries' section', remove not supported targets in deployment settings.
 
 # Development info
 
@@ -10,8 +7,33 @@ https://krirogn.dev/blog/integrate-rust-in-ios
 https://kerkour.com/rust-file-encryption
 https://www.swift.org/documentation/cxx-interop/project-build-setup/#mixing-swift-and-c-using-swift-package-manager
 
-# Short tutorial
+# Short tutorial for using the folder
+Ensure that you have runned
+```
+rustup target add aarch64-apple-ios && rustup target add x86_64-apple-ios & rustup target add aarch64-apple-ios-sim 
+```
+```
+brew install swiftformat
+```
 
+Open cloned folder in vs code, and in terminal type
+```
+chmod 701 ./make.sh
+```
+
+After that open `make.sh` and modify these three correctly. They should point to valid directories in your system.
+```
+RUST_PROJ="/Users/abai/Documents/Freelance/rust_saead/saead"
+IOS_LIB="/Users/abai/Documents/Freelance/rust_saead/saead/saeadLib"
+PATH="$PATH:/Users/abai/.cargo/bin" # Adds the rust compiler
+```
+
+Then run ./make.sh which will generate the library inside `.xcframework` and create `saeadLib.swift` in Lib folder
+
+
+# Short tutorial from scratch
+
+Install architectures with this:
 ```
 rustup target add aarch64-apple-ios && rustup target add x86_64-apple-ios & rustup target add aarch64-apple-ios-sim 
 ```

@@ -259,61 +259,23 @@ framework module Example {
 #include "saeadFFI.h"
 ```
 
-Now we can finally get to the Xcode integration! First make a new SwiftUI iOS app project (or you can add your library to an existing project).
-
-
-Then remove all non iOS targets since we haven't compiled binaries for them and choose the iOS version you want to support.
-
-Then scroll down to "Frameworks, Libraries, and Embedded Content".
-
-
-
-Then click the + symbol. Then in the new window click on "Add Other..." and then "Add Files...".
-
-
-
-Then select the XCFrameworks folder you made in the rust library.
-
-
-
-Then click on the Embed tab and make sure it's set to "Do Not Embed".
-
-
-
-If it's not set to "Do Not Embed" the project will work in the simulator, but won't successfully build on an actual iPhone. I don't exactly know why this is, but I do suspect it has something to do with some security concerns?
-
-Then make a new folder called "Lib" by right clicking the project index in the navigation tree and selecting "New Group" and calling it "Lib".
-
-
-
-Then go to the "Build Phases" tab and click the + icon, then select "New Run Script Phase".
-
-
-
-Then drag the new "Run Script" line as far up as it goes. (This is usually 3rd).
-
-
-
-Then open the "Run Script" index and deselect the "Based on dependency analysis" option. What this option is supposed to do is watch the source files of the rust library and only compile new binaries if there has been any new changes, but I don't know how to do this yet so I simply let it compile new library binaries at every iOS build. Because if there hasn't been any changes to the source code, the rust compiler won't compile the binaries again anyway, so this leaves the "Based on dependency analysis" option redundant.
-
-
-
-Now we add the actual script. Paste these lines in the script field.
-
+Create make.sh file inside with 
+```
 set -e # Helps to give error info
 
 # Project paths
-RUST_PROJ="/Users/kf/code/ios/example-lib"
-IOS_LIB="/Users/kf/code/ios/Blueberry/Lib"
 
-LOCAL_UDL="src/blueberry.udl"
-UDL_NAME="blueberry"
-FRAMEWORK_NAME="BlueberryCore"
-SWIFT_INTERFACE="BlueberryLib"
+RUST_PROJ="/Users/abai/Documents/Freelance/rust_saead/saead"
+IOS_LIB="/Users/abai/Documents/Freelance/rust_saead/saead/saeadLib"
+
+LOCAL_UDL="src/saead.udl"
+UDL_NAME="saead"
+FRAMEWORK_NAME="saead"
+SWIFT_INTERFACE="saeadLib"
 
 # Binary paths
-PATH="$PATH:/Users/kf/.cargo/bin" # Adds the rust compiler
-PATH="$PATH:/opt/homebrew/bin" # Adds swiftformat to the path
+PATH="$PATH:/Users/abai/.cargo/bin" # Adds the rust compiler
+PATH="$PATH:/usr/local/bin" # Adds swiftformat to the path
 
 cd "$RUST_PROJ"
 
@@ -361,35 +323,21 @@ cp "include/ios/${UDL_NAME}FFI.h" \
 # Move swift interface
 sed "s/${UDL_NAME}FFI/$FRAMEWORK_NAME/g" "include/ios/$UDL_NAME.swift" > "include/ios/$SWIFT_INTERFACE.swift"
 rm -f "$IOS_LIB/$SWIFT_INTERFACE.swift"
-cp "include/ios/$SWIFT_INTERFACE.swift" "$IOS_LIB/"
-This is the script I have in my example project with the relevant names for me. You should change:
+cp "include/ios/$SWIFT_INTERFACE.swift" "$IOS_LIB/$SWIFT_INTERFACE.swift"
+```
 
-RUST_PROJ to the full path to your rust library
-IOS_LIB to the full path to the Lib folder in your Xcode project
-LOCAL_UDL to the relative path to your .udl file from the root of your rust library
-UDL_NAME to the name of you library from the [lib] name section of your "Cargo.toml" file
-FRAMEWORK_NAME to the name of your XCFrameworks
-SWIFT_INTERFACE to a fitting name for the interface. I chose BlueberryCore for the framework itself, and BlueberryLib for the interface I actually use
-The first PATH should point to your ".cargo/bin"
-The second PATH should point to your homebrew bin folder, which is usually "/opt/homebrew/bin" on Apple Silicon Macs
-The reason homebrew is needed for the build phase is because we need the swiftformat program to compile the library. So remember to install swiftformat if you don't have it already.
+# Xcode
 
-λ brew install swiftformat
-Then you should do a test build of your project by running "⌘ + b". If there are any errors it will be easier to weed them out now.
+Remove all non iOS targets since we haven't compiled binaries for them and choose the iOS version you want to support.
 
-Then we have to bind the "BlueberryLib.swift" interface file to Xcode by going to the "Lib" folder in Finder, and dragging the "BlueberryLib.swift" into the "Lib" folder in Xcode.
+Then scroll down to "Frameworks, Libraries, and Embedded Content".
 
+Then click the + symbol. Then in the new window click on "Add Other..." and then "Add Files...".
 
+Then select the XCFrameworks folder you made in the rust library.
 
-You should then have these options selected to make sure the file gets updated when we build.
+Then click on the Embed tab and make sure it's set to "Do Not Embed".
 
+If it's not set to "Do Not Embed" the project will work in the simulator, but won't successfully build on an actual iPhone. I don't exactly know why this is, but I do suspect it has something to do with some security concerns?
 
-
-Now that we have gotten a successful build of our project we can start to use it! First go to "ContentView" and paste these lines.
-
-let _ = print("Test")
-let _ = print(add(a: 6, b: 7))
-let _ = print(hello())
-
-
-You can see in the image where you should paste the code, and you can also see in the log in the bottom right that the app printed the results from the rust library! We did it!
+Then make a new folder called "Lib" by right clicking the project index in the navigation tree and selecting "New Group" and calling it "Lib". Move `saeadLib.swift` inside that
